@@ -19,3 +19,11 @@ mientras un proceso modifica el historial otro no modifique el monto de la cuent
 - Se usa numpy para poder hacer operaciones mas complejas y de matrices, ya que el otro es muy basico. Hay que tener cuidado en definir el tipo de dato correctamente en ambos para no tener problemas.
 - Un problema practico real en que esto se utiliza es en el filtrado de imagenes. aplicar el filtro pixel por piel es muy lento, es mejor aplicar el filtro por bloques en paralelo para filtrarla. cada pixel
 o bloque de filas se puede calcular independientemente, y para no copiarla para cada proceso, se utiliza la memoria compartida utilizando multiprocessing + array. 
+
+
+///
+
+
+Granularidad FIna: Creamos una tarea indeendiente para calcular cada celda individual de la matriz resultante. Si la matriz es grande generarìa demasiadas tareas independientes pequeñas, dando un costo altisimo. Demoraria mas asignando tareas y memoria que calculando.
+
+Granularidad Media (fila por fila): Cada tarea calcula una fila completa de la matriz resultante. el numero de tareas es igual al de filas, muchas menos que con granularidad fina. 
