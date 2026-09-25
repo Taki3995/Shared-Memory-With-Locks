@@ -1,7 +1,8 @@
 {
     "name": "Python Parallel Programming",
     "build": {
-        "dockerfile": "Dockerfile"
+        "dockerfile": "Dockerfile",
+        "context": ".."
     },
     "customizations": {
         "vscode": {
