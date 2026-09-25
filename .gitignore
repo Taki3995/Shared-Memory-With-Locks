@@ -1,1 +1,16 @@
 respuestasPreguntas.md
+
+# Entornos virtuales y variables de entorno
+venv/
+env/
+.env
+
+# Archivos cacheados de Python y Jupyter
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db

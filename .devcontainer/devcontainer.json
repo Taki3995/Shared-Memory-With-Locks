@@ -1,0 +1,15 @@
+{
+    "name": "Python Parallel Programming",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-toolsai.jupyter"
+            ]
+        }
+    },
+    "remoteUser": "vscode"
+}
