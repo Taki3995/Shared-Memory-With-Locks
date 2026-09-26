@@ -4,6 +4,7 @@
         "dockerfile": "Dockerfile",
         "context": ".."
     },
+    "userEnvProbe": "none",
     "customizations": {
         "vscode": {
             "extensions": [
@@ -12,5 +13,11 @@
             ]
         }
     },
-    "remoteUser": "vscode"
+    "remoteUser": "vscode",
+    "runArgs": [
+        "--volume=/tmp/.X11-unix:/tmp/.X11-unix:ro"
+    ],
+    "containerEnv": {
+        "DISPLAY": "${localEnv:DISPLAY}"
+    }
 }
