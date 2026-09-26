@@ -82,29 +82,34 @@ def init_sharedarray(matA_in : np.ndarray,
     shared_matrix = tonumpyarrayF(shared_space).reshape((a_rows,b_cols))
 
 def matmulP(coord) -> None:
-    # The parameter coord can vary depending on your approach to solve the matrix multiplication:
-    # can be of type tuple, if you pass the coordinates of the cell to calculate (fine granularity)
-    # or can be a simple integer if your approach is the row to calculate sequentially (medium granularity)
-
-    # Access the global variables
-    # Because both use the same computers memory space, they will have the same values. 
-    # the difference is the acces to the propetary methods in each one data object instance-
-    # shared_space is an instance of the Array object with the methods defined for shared memory
-    # shared_matrix is an instance of np.array object (the second way to view the memory space) 
-    # has all the methods that belong to np.ndarray objects
-    
+    # Declaración de variables globales compartidas por el inicializador
     global shared_space
     global shared_matrix
+    global matA
+    global matB
 
-    accu = 0 #dummy variable, you can use or not, depending on the algorithm you decide to implement
-    # The use of the get_lock() method is mandatory. You should carefully analyse where it can be placed
-    # so as to minimise its impact on the overall execution of the program. In your conclusions,
-    #  you may then discuss whether its use is actually necessary for the implementation you have developed.
-
+    # coord es la fila i de la Matriz A que se va a multiplicar con la Matriz B
+    i = coord
+    
+    # Total de columnas B 
+    b_cols = matB.shape[1]
+    
+    # Total elementos de la fila i de A (columnas de A)
+    a_cols = matA.shape[1]
+    
+    accu = 0 # Candado de acceso. Dummy.
     with shared_space.get_lock():
-        accu += 1 #this is a dummy line, just to be able to load the library at the beginning
-        # In this section, you have to program the parallel code to implement the global matrix multiplication
-        # and store the result in the shared memory variable.
+        accu += 1 
+        
+    # Inicio de la ecuación matemática (Sin usar locks ya que cada proceso vaa escribir en una fila diferente de la matriz compartida)
+    for j in range(b_cols):
+        temp_sum = 0.0
+        
+        for k in range(a_cols):
+            temp_sum += matA[i, k] * matB[k, j]
+            
+        # Asignar la sumatoria completa a la celda específica de la memoria compartida
+        shared_matrix[i, j] = temp_sum
         
 
 
