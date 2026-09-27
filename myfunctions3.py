@@ -96,10 +96,6 @@ def matmulP(coord) -> None:
     
     # Total elementos de la fila i de A (columnas de A)
     a_cols = matA.shape[1]
-    
-    accu = 0 # Candado de acceso. Dummy.
-    with shared_space.get_lock():
-        accu += 1 
         
     # Inicio de la ecuación matemática (Sin usar locks ya que cada proceso vaa escribir en una fila diferente de la matriz compartida)
     for j in range(b_cols):
@@ -108,8 +104,9 @@ def matmulP(coord) -> None:
         for k in range(a_cols):
             temp_sum += matA[i, k] * matB[k, j]
             
-        # Asignar la sumatoria completa a la celda específica de la memoria compartida
-        shared_matrix[i, j] = temp_sum
+        # Asignar la sumatoria completa a la celda específica de la memoria compartida, bloqueandola para evitar condiciones de carrera
+        with shared_space.get_lock():
+            shared_matrix[i, j] = temp_sum
         
 
 
@@ -117,4 +114,3 @@ def matmulP(coord) -> None:
 #This avoids the execution of this script when it is invoked directly.
 if __name__ == "__main__":
     print("This is not an executable library")
-
